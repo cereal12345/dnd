@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Token from './Token'
 
-function Grid({ tokens, background, gridColor, gridSize, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
+function Grid({ tokens, background, gridColor, gridSize, backgroundScale, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
   const gridRef = useRef(null)
   const [dragging, setDragging] = useState(null)
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
@@ -41,10 +41,14 @@ function Grid({ tokens, background, gridColor, gridSize, backgroundDimensions, o
     setDragging(null)
   }
 
-  // Calculate container dimensions based on background
+  // Calculate scaled dimensions
+  const scaledWidth = backgroundDimensions ? (backgroundDimensions.width * backgroundScale) / 100 : undefined
+  const scaledHeight = backgroundDimensions ? (backgroundDimensions.height * backgroundScale) / 100 : undefined
+
+  // Calculate container dimensions based on scaled background
   const containerStyle = backgroundDimensions ? {
-    width: `${backgroundDimensions.width}px`,
-    height: `${backgroundDimensions.height}px`,
+    width: `${scaledWidth}px`,
+    height: `${scaledHeight}px`,
     minWidth: '100%',
     minHeight: '100%'
   } : {}
@@ -68,8 +72,8 @@ function Grid({ tokens, background, gridColor, gridSize, backgroundDimensions, o
       {/* Grid overlay */}
       <svg
         className="absolute inset-0 pointer-events-none"
-        width={backgroundDimensions ? `${backgroundDimensions.width}px` : '100%'}
-        height={backgroundDimensions ? `${backgroundDimensions.height}px` : '100%'}
+        width={scaledWidth || '100%'}
+        height={scaledHeight || '100%'}
       >
         <defs>
           <pattern

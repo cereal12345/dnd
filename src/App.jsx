@@ -9,6 +9,7 @@ function App() {
   const [background, setBackground] = useState(null)
   const [gridColor, setGridColor] = useState('black')
   const [gridSize, setGridSize] = useState(40)
+  const [backgroundScale, setBackgroundScale] = useState(100)
   const [selectedToken, setSelectedToken] = useState(null)
   const [showForm, setShowForm] = useState(false)
   const [editingToken, setEditingToken] = useState(null)
@@ -82,11 +83,11 @@ function App() {
 
   return (
     <div className="w-full h-screen flex flex-col bg-gray-900">
-      <div className="bg-gray-800 text-white p-4 flex justify-between items-center shadow-lg gap-4">
-        <h1 className="text-2xl font-bold">DnD Battle Map</h1>
+      <div className="bg-gray-800 text-white p-4 flex justify-between items-center shadow-lg gap-4 overflow-x-auto">
+        <h1 className="text-2xl font-bold whitespace-nowrap">DnD Battle Map</h1>
         <div className="flex gap-3 items-center">
-          <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded">
-            <label className="text-sm font-medium">Grid Size:</label>
+          <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap">
+            <label className="text-sm font-medium">Grid:</label>
             <input
               type="range"
               min="20"
@@ -94,9 +95,22 @@ function App() {
               step="5"
               value={gridSize}
               onChange={(e) => setGridSize(parseInt(e.target.value))}
-              className="w-24"
+              className="w-20"
             />
             <span className="text-sm font-semibold w-8">{gridSize}px</span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap">
+            <label className="text-sm font-medium">Zoom:</label>
+            <input
+              type="range"
+              min="25"
+              max="200"
+              step="25"
+              value={backgroundScale}
+              onChange={(e) => setBackgroundScale(parseInt(e.target.value))}
+              className="w-20"
+            />
+            <span className="text-sm font-semibold w-12">{backgroundScale}%</span>
           </div>
           <BackgroundUpload onUpload={handleBackgroundUpload} />
           <button
@@ -104,7 +118,7 @@ function App() {
               setShowForm(true)
               setEditingToken(null)
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition whitespace-nowrap"
           >
             Add Token
           </button>
@@ -117,6 +131,7 @@ function App() {
           background={background}
           gridColor={gridColor}
           gridSize={gridSize}
+          backgroundScale={backgroundScale}
           backgroundDimensions={backgroundDimensions}
           onTokenMove={moveToken}
           onTokenDoubleClick={(token) => {
