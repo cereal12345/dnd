@@ -69,11 +69,13 @@ function Grid({ tokens, background, gridColor, gridSize, backgroundScale, backgr
       onMouseLeave={handleMouseUp}
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* Grid overlay */}
+      {/* Grid overlay - covers entire container */}
       <svg
         className="absolute inset-0 pointer-events-none"
-        width={scaledWidth || '100%'}
-        height={scaledHeight || '100%'}
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${scaledWidth || 100} ${scaledHeight || 100}`}
+        preserveAspectRatio="none"
       >
         <defs>
           <pattern
