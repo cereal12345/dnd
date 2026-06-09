@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Token from './Token'
 
-function Grid({ tokens, background, gridColor, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
+function Grid({ tokens, background, gridColor, gridSize, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
   const gridRef = useRef(null)
   const [dragging, setDragging] = useState(null)
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
@@ -26,9 +26,9 @@ function Grid({ tokens, background, gridColor, onTokenMove, onTokenDoubleClick, 
     let x = e.clientX - rect.left - dragOffset.x
     let y = e.clientY - rect.top - dragOffset.y
 
-    // Snap to 40px grid
-    x = Math.round(x / 40) * 40
-    y = Math.round(y / 40) * 40
+    // Snap to grid size
+    x = Math.round(x / gridSize) * gridSize
+    y = Math.round(y / gridSize) * gridSize
 
     // Keep within bounds
     x = Math.max(0, Math.min(x, rect.width - 50))
@@ -41,14 +41,24 @@ function Grid({ tokens, background, gridColor, onTokenMove, onTokenDoubleClick, 
     setDragging(null)
   }
 
+  // Calculate container dimensions based on background
+  const containerStyle = backgroundDimensions ? {
+    width: `${backgroundDimensions.width}px`,
+    height: `${backgroundDimensions.height}px`,
+    minWidth: '100%',
+    minHeight: '100%'
+  } : {}
+
   return (
     <div
       ref={gridRef}
-      className="relative w-full h-full overflow-hidden bg-cover bg-center"
+      className="relative bg-cover bg-center"
       style={{
+        ...containerStyle,
         backgroundImage: background ? `url(${background})` : 'none',
-        backgroundAttachment: 'fixed',
-        backgroundSize: 'cover'
+        backgroundAttachment: 'local',
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat'
       }}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -58,21 +68,21 @@ function Grid({ tokens, background, gridColor, onTokenMove, onTokenDoubleClick, 
       {/* Grid overlay */}
       <svg
         className="absolute inset-0 pointer-events-none"
-        width="100%"
-        height="100%"
+        width={backgroundDimensions ? `${backgroundDimensions.width}px` : '100%'}
+        height={backgroundDimensions ? `${backgroundDimensions.height}px` : '100%'}
       >
         <defs>
           <pattern
             id="grid"
-            width="40"
-            height="40"
+            width={gridSize}
+            height={gridSize}
             patternUnits="userSpaceOnUse"
           >
             <path
-              d="M 40 0 L 0 0 0 40"
+              d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
               fill="none"
               stroke={gridColor}
-              strokeWidth="0.5"
+              strokeWidth="1"
               opacity="0.3"
             />
           </pattern>

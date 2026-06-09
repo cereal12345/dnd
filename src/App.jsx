@@ -8,9 +8,11 @@ function App() {
   const [tokens, setTokens] = useState([])
   const [background, setBackground] = useState(null)
   const [gridColor, setGridColor] = useState('black')
+  const [gridSize, setGridSize] = useState(40)
   const [selectedToken, setSelectedToken] = useState(null)
   const [showForm, setShowForm] = useState(false)
   const [editingToken, setEditingToken] = useState(null)
+  const [backgroundDimensions, setBackgroundDimensions] = useState(null)
 
   // Calculate grid color based on background brightness
   useEffect(() => {
@@ -21,6 +23,9 @@ function App() {
 
     const img = new Image()
     img.onload = () => {
+      // Store background dimensions
+      setBackgroundDimensions({ width: img.width, height: img.height })
+      
       const canvas = document.createElement('canvas')
       canvas.width = img.width
       canvas.height = img.height
@@ -77,9 +82,22 @@ function App() {
 
   return (
     <div className="w-full h-screen flex flex-col bg-gray-900">
-      <div className="bg-gray-800 text-white p-4 flex justify-between items-center shadow-lg">
+      <div className="bg-gray-800 text-white p-4 flex justify-between items-center shadow-lg gap-4">
         <h1 className="text-2xl font-bold">DnD Battle Map</h1>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded">
+            <label className="text-sm font-medium">Grid Size:</label>
+            <input
+              type="range"
+              min="20"
+              max="100"
+              step="5"
+              value={gridSize}
+              onChange={(e) => setGridSize(parseInt(e.target.value))}
+              className="w-24"
+            />
+            <span className="text-sm font-semibold w-8">{gridSize}px</span>
+          </div>
           <BackgroundUpload onUpload={handleBackgroundUpload} />
           <button
             onClick={() => {
@@ -93,11 +111,13 @@ function App() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-auto">
         <Grid
           tokens={tokens}
           background={background}
           gridColor={gridColor}
+          gridSize={gridSize}
+          backgroundDimensions={backgroundDimensions}
           onTokenMove={moveToken}
           onTokenDoubleClick={(token) => {
             setEditingToken(token)
