@@ -2,7 +2,7 @@
   "name": "dnd-web-app",
   "version": "1.0.0",
   "description": "A Dungeons & Dragons web app with draggable tokens and dynamic grid coloring",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
