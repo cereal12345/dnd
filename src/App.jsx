@@ -51,10 +51,19 @@ function App() {
   }, [background])
 
   const addToken = (tokenData) => {
+    // Calculate center position based on background dimensions
+    let centerX = 100
+    let centerY = 100
+
+    if (backgroundDimensions) {
+      centerX = (backgroundDimensions.width * backgroundScale) / 100 / 2 - 25
+      centerY = (backgroundDimensions.height * backgroundScale) / 100 / 2 - 25
+    }
+
     const newToken = {
       id: Date.now(),
-      x: 100,
-      y: 100,
+      x: centerX,
+      y: centerY,
       ...tokenData,
     }
     setTokens([...tokens, newToken])
