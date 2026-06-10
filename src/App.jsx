@@ -93,7 +93,12 @@ function App() {
   return (
     <div className="w-full h-screen flex flex-col bg-gray-900">
       <div className="bg-gray-800 text-white p-4 flex justify-between items-center shadow-lg gap-4 overflow-x-auto">
-        <h1 className="text-2xl font-bold whitespace-nowrap">DnD Battle Map</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold whitespace-nowrap">DnD Battle Map</h1>
+          <div className="text-sm text-gray-300 border-l border-gray-600 pl-3 whitespace-nowrap">
+            Drag to move | Double-click to edit | Right-click to delete
+          </div>
+        </div>
         <div className="flex gap-3 items-center">
           <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap">
             <label className="text-sm font-medium">Grid:</label>
