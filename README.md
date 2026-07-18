@@ -1,6 +1,6 @@
 # DnD Web App
 
-A Dungeons & Dragons campaign management web app with draggable tokens, background images, and dynamic grid coloring.
+A Dungeons & Dragons campaign management web app with draggable tokens, background images, and customizable grid coloring.
 
 ## Features
 
@@ -8,7 +8,7 @@ A Dungeons & Dragons campaign management web app with draggable tokens, backgrou
 - **Token Management**: Double-click to edit token properties (name, max HP, current HP, AC)
 - **Quick Delete**: Right-click any token to delete with confirmation
 - **Background Upload**: Upload a JPG background image for your battle map
-- **Smart Grid Colors**: Grid automatically switches between black and white based on background brightness
+- **Grid Color Picker**: Use an interactive color wheel to customize grid color, or enable auto-detect for smart color switching based on background brightness
 - **Compact UI**: User-friendly interface designed for battle management
 
 ## Deployment
@@ -37,10 +37,15 @@ The app will run on `http://localhost:3000`
 3. **Move Tokens**: Click and drag tokens to new positions on the grid
 4. **Delete Tokens**: Right-click a token and confirm deletion
 5. **Set Background**: Upload a JPG image to use as the battle map background
-6. **Grid Colors**: Grid color automatically adjusts for readability
+6. **Customize Grid Color**: 
+   - Click the color swatch in the toolbar to open the color picker wheel
+   - Select any color you want for the grid
+   - Check "Auto-detect" to automatically switch between colors based on background brightness
+   - Click "Done" to close the picker
 
 ## Tech Stack
 
 - React
 - Vite
 - Tailwind CSS
+- react-colorful (for the color picker)
