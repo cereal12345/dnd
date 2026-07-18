@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react'
 import Grid from './components/Grid'
 import TokenForm from './components/TokenForm'
 import BackgroundUpload from './components/BackgroundUpload'
+import GridColorPicker from './components/GridColorPicker'
 import './App.css'
 
 function App() {
   const [tokens, setTokens] = useState([])
   const [background, setBackground] = useState(null)
-  const [gridColor, setGridColor] = useState('black')
+  const [gridColor, setGridColor] = useState('#000000')
+  const [autoDetectGridColor, setAutoDetectGridColor] = useState(false)
   const [gridSize, setGridSize] = useState(40)
   const [backgroundScale, setBackgroundScale] = useState(100)
   const [selectedToken, setSelectedToken] = useState(null)
@@ -15,10 +17,9 @@ function App() {
   const [editingToken, setEditingToken] = useState(null)
   const [backgroundDimensions, setBackgroundDimensions] = useState(null)
 
-  // Calculate grid color based on background brightness
+  // Calculate grid color based on background brightness (when auto-detect is enabled)
   useEffect(() => {
-    if (!background) {
-      setGridColor('black')
+    if (!autoDetectGridColor || !background) {
       return
     }
 
@@ -45,7 +46,20 @@ function App() {
       }
 
       brightness /= (data.length / 4)
-      setGridColor(brightness > 128 ? 'black' : 'white')
+      setGridColor(brightness > 128 ? '#000000' : '#FFFFFF')
+    }
+    img.src = background
+  }, [background, autoDetectGridColor])
+
+  // Store dimensions when background loads (even if not auto-detecting color)
+  useEffect(() => {
+    if (!background) {
+      return
+    }
+
+    const img = new Image()
+    img.onload = () => {
+      setBackgroundDimensions({ width: img.width, height: img.height })
     }
     img.src = background
   }, [background])
@@ -126,6 +140,12 @@ function App() {
             />
             <span className="text-sm font-semibold w-12">{backgroundScale}%</span>
           </div>
+          <GridColorPicker 
+            gridColor={gridColor}
+            onGridColorChange={setGridColor}
+            autoDetect={autoDetectGridColor}
+            onAutoDetectChange={setAutoDetectGridColor}
+          />
           <BackgroundUpload onUpload={handleBackgroundUpload} />
           <button
             onClick={() => {
