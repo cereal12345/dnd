@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Token from './Token'
 
-function Grid({ tokens, background, gridColor, gridSize, backgroundScale, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
+function Grid({ tokens, background, gridColor, gridSize, gridThickness, backgroundScale, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
   const gridRef = useRef(null)
   const [dragging, setDragging] = useState(null)
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
@@ -88,7 +88,7 @@ function Grid({ tokens, background, gridColor, gridSize, backgroundScale, backgr
               d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
               fill="none"
               stroke={gridColor}
-              strokeWidth="1"
+              strokeWidth={gridThickness}
               opacity="0.3"
             />
           </pattern>
