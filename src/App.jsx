@@ -11,6 +11,7 @@ function App() {
   const [gridColor, setGridColor] = useState('#000000')
   const [autoDetectGridColor, setAutoDetectGridColor] = useState(false)
   const [gridSize, setGridSize] = useState(40)
+  const [gridThickness, setGridThickness] = useState(1)
   const [backgroundScale, setBackgroundScale] = useState(100)
   const [selectedToken, setSelectedToken] = useState(null)
   const [showForm, setShowForm] = useState(false)
@@ -128,6 +129,19 @@ function App() {
             <span className="text-sm font-semibold w-8">{gridSize}px</span>
           </div>
           <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap">
+            <label className="text-sm font-medium">Thickness:</label>
+            <input
+              type="range"
+              min="0.5"
+              max="5"
+              step="0.5"
+              value={gridThickness}
+              onChange={(e) => setGridThickness(parseFloat(e.target.value))}
+              className="w-20"
+            />
+            <span className="text-sm font-semibold w-8">{gridThickness}px</span>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap">
             <label className="text-sm font-medium">Zoom:</label>
             <input
               type="range"
@@ -165,6 +179,7 @@ function App() {
           background={background}
           gridColor={gridColor}
           gridSize={gridSize}
+          gridThickness={gridThickness}
           backgroundScale={backgroundScale}
           backgroundDimensions={backgroundDimensions}
           onTokenMove={moveToken}
