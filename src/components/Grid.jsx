@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Token from './Token'
 
-function Grid({ tokens, background, gridColor, gridSize, gridThickness, backgroundScale, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
+function Grid({ tokens, background, gridColor, gridSize, gridThickness, showGrid, backgroundScale, backgroundDimensions, onTokenMove, onTokenDoubleClick, onTokenRightClick, selectedToken, onSelectToken }) {
   const gridRef = useRef(null)
   const [dragging, setDragging] = useState(null)
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
@@ -69,32 +69,34 @@ function Grid({ tokens, background, gridColor, gridSize, gridThickness, backgrou
       onMouseLeave={handleMouseUp}
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* Grid overlay - covers entire container */}
-      <svg
-        className="absolute inset-0 pointer-events-none"
-        width="100%"
-        height="100%"
-        viewBox={`0 0 ${scaledWidth || 100} ${scaledHeight || 100}`}
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <pattern
-            id="grid"
-            width={gridSize}
-            height={gridSize}
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
-              fill="none"
-              stroke={gridColor}
-              strokeWidth={gridThickness}
-              opacity="0.3"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
+      {/* Grid overlay - only show if showGrid is true */}
+      {showGrid && (
+        <svg
+          className="absolute inset-0 pointer-events-none"
+          width="100%"
+          height="100%"
+          viewBox={`0 0 ${scaledWidth || 100} ${scaledHeight || 100}`}
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <pattern
+              id="grid"
+              width={gridSize}
+              height={gridSize}
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
+                fill="none"
+                stroke={gridColor}
+                strokeWidth={gridThickness}
+                opacity="0.3"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      )}
 
       {/* Tokens */}
       <div className="absolute inset-0">
