@@ -12,6 +12,7 @@ function App() {
   const [autoDetectGridColor, setAutoDetectGridColor] = useState(false)
   const [gridSize, setGridSize] = useState(40)
   const [gridThickness, setGridThickness] = useState(1)
+  const [showGrid, setShowGrid] = useState(true)
   const [backgroundScale, setBackgroundScale] = useState(100)
   const [selectedToken, setSelectedToken] = useState(null)
   const [showForm, setShowForm] = useState(false)
@@ -115,8 +116,17 @@ function App() {
           </div>
         </div>
         <div className="flex gap-3 items-center">
+          <label className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showGrid}
+              onChange={(e) => setShowGrid(e.target.checked)}
+              className="w-4 h-4"
+            />
+            <span className="text-sm font-medium">Grid</span>
+          </label>
           <div className="flex items-center gap-2 bg-gray-700 px-4 py-2 rounded whitespace-nowrap">
-            <label className="text-sm font-medium">Grid:</label>
+            <label className="text-sm font-medium">Size:</label>
             <input
               type="range"
               min="20"
@@ -180,6 +190,7 @@ function App() {
           gridColor={gridColor}
           gridSize={gridSize}
           gridThickness={gridThickness}
+          showGrid={showGrid}
           backgroundScale={backgroundScale}
           backgroundDimensions={backgroundDimensions}
           onTokenMove={moveToken}
